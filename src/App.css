@@ -2,31 +2,220 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: white;
+  min-height: 2vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row ;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-logo {
+    align-items: flex-end;
+    float: left;
+    width: 2vmin;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.Navbar {
+    background-color: white;
+    display: flex;
+    padding: 16px;
+    font-family: sans-serif;
+    color: black;
+}
+
+.Navbar__Items {
+    display:flex;
+    list-style-type: none;
+}
+
+.Navbar__Link {
+    padding-right: 8px;
+}
+
+.Navbar__Items--right {
+    margin-left:auto;
+    padding-left: 36px;
+}
+
+.Navbar__Link__Button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.NewAcc__Btn {
+    border-radius: 30px;
+    border-width: 1;
+    background-color: coral;
+    color: white;
+}
+
+.Search__Section {
+    background-image: url("images/heliotrope.jpg");
+    background-size: cover;
+    overflow: hidden;
+    height: 60vh;
+    margin-bottom: 10vh;
+    padding-top:  10vh;
+    padding-bottom: 10vh;
+}
+
+.Search__Icon{
+    padding-left: 10px;
+}
+
+.Search__Input{
+    display: flex;
+    flex-direction: row ;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    height: 60px;
+}
+
+.Main__Label {
+    font-size: 3em;
+    color:white;
+}
+
+.Secondary__Label {
+    font-size: 1em;
+    color:white;
+}
+
+.Tiles {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	justify-content: center;
+	position: relative;
+}
+
+.Tile {
+	margin: 10px;
+	cursor: pointer;
+	overflow: hidden;
+	width: 23vw;
+    height: 28vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Tile__Name{
+    font-size: 2em;
+    display: flex;
+    flex-direction: column-reverse ;
+    align-items: center;
+    justify-content: center;
+    color:white;
+    margin-top: 75%;
+}
+
+.Tile__Name__Latin {
+    font-size: 1em;
+    font-weight: normal;
+    font-style: italic;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: white;
+    width:100%;
+}
+
+.Login__Btn {
+    color: coral;
+}
+
+.Login__Modal{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.Login__Modal__Main {
+    position:fixed;
+    background: white;
+    width: 80%;
+    height: auto;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+.display-block {
+    display: block;
+}
+  
+.display-none {
+    display: none;
+}
+
+.max--width,
+.react-datepicker-wrapper input,
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+    width: 100%;
+}
+
+.Name__Fields {
+    width:45%;
+    margin-right: 10px;
+}
+
+.Form__Input,
+.react-datepicker-wrapper input{
+    margin-top: 10px;
+    height: 50px;
+    border-radius: 3px;
+    background-color: #f5f6f7;
+}
+
+.Signup__Modal {
+    width:50vw;
+    border-radius: 3px;
+    background-color: white;
+}
+
+.Fav__Button {
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 15px 20px 0 rgba(234, 168, 159, 0.2);
+    float: right;
+    background-color: white;
+    border-radius: 50%;
+    align-items: center;
+}
+
+.Star__Icon {
+    width: 13px;
+    height: 12px;
+    object-fit: contain;
+}
+
+.Sightings__Label{
+    width: 103px;
+    height: 30px;
+    border-radius: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    font-size: 12px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: center;
+    color: white;
+    padding-top: 10px;
 }
