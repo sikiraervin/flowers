@@ -1,0 +1,49 @@
+export const FLOWERS = [{
+	id: 1,
+    name: "Island",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 2,
+    name: "Forest",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 3,
+    name: "Whale",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 4,
+    name: "Mountain",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 5,
+    name: "Boat",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 6,
+    name: "Flowers",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 7,
+    name: "Fire",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}, {
+	id: 8,
+    name: "Garden",
+    latin_name: 'asdjajsd',
+    sightings: 8,
+	profile_picture: ''
+}]

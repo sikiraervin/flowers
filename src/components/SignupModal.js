@@ -5,12 +5,13 @@ import {
     Modal,
     ModalBody,
     ModalHeader,
-    ModalFooter 
+    ModalFooter
 } from 'mdbreact';
 
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
- 
+import client from '../client';
+
 
 export class SignupModal extends React.Component {
     constructor(props) {
@@ -20,9 +21,15 @@ export class SignupModal extends React.Component {
             show: this.props.show,
             signupInProgress: false,
             dateOfBirth: new Date(),
+            formatedDate: '',
+            name: '',
+            lastName: '',
+            email: '',
+            password: ''
         };
 
         this.register = this.register.bind(this);
+        this.dateOfBirthChanged = this.dateOfBirthChanged.bind(this);
     }
 
     toggle = () => {
@@ -31,85 +38,128 @@ export class SignupModal extends React.Component {
         });
     }
 
-    close() {
-        this.toggle();
-        this.props.hideSignupModal();
-    }
-
-    register(){
-
-    }
-
     nameChanged = event => {
-        console.log('Name changed');
-        console.log(event.target.value);
+        this.setState({
+            name: event.target.value
+        });
     }
 
     lastNameChanged = event => {
-        console.log('Last Name changed');
-        console.log(event.target.value);
+        this.setState({
+            lastName: event.target.value
+        });
     }
 
     emailChanged = event => {
-        console.log('Email changed');
-        console.log(event.target.value);
+        this.setState({
+            email: event.target.value
+        });
     }
 
     passwordChanged = event => {
-        console.log('Password changed');
-        console.log(event.target.value);
+        this.setState({
+            password: event.target.value
+        });
     }
 
-    dateOfBirthChanged(date){
-        console.log('DoB changed');
-        console.log(date);
+    dateOfBirthChanged(date) {
+        let year = date.getFullYear();
+
+        let month = date.getMonth() + 1;
+        month = (month < 10 ? '0' + month : month);
+
+        let day = date.getDate();
+        day = (day < 10 ? '0' + day : day);
+
+        this.setState({
+            dateOfBirth: date,
+            formatedDate: year + '/' + month + '/' + day,
+        }, () => {
+            console.log(this.state.formatedDate);
+        });
+    }
+
+    register() {
+        if (
+            this.state.signupInProgress ||
+            this.state.name === '' ||
+            this.state.lastName === '' ||
+            this.state.email === '' ||
+            this.state.password === ''
+        ) {
+            return;
+        }
+
+        this.setState({
+            signupInProgress: true
+        });
+
+        client.signup({
+            name: this.state.name,
+            lastName: this.state.lastName,
+            dateOfBirth: this.state.formatedDate,
+            email: this.state.email,
+            password: this.state.password
+        })
+            .then(res => {
+                if (res) {
+                    console.log(res);
+                }
+
+                this.setState({
+                    signupInProgress: false
+                });
+            });
     }
 
     render() {
         return (
             <Container>
-                <Modal 
+                <Modal
                     className='Signup__Modal'
-                    isOpen={this.state.show} 
-                    toggle={this.toggle} 
+                    isOpen={this.state.show}
+                    toggle={this.toggle}
                 >
                     <ModalHeader toggle={this.toggle}>Create Your Account</ModalHeader>
 
                     <ModalBody>
-                        <input 
+                        <input
                             className="Form__Input Name__Fields"
-                            type="text" 
-                            onChange={(event)=>this.nameChanged(event)} 
+                            type="text"
+                            onChange={(event) => this.nameChanged(event)}
                             placeholder='Name'
                         />
-                         <input 
+                        <input
                             className="Form__Input Name__Fields"
-                            type="text" 
-                            onChange={(event)=>this.emailChanged(event)} 
+                            type="text"
+                            onChange={(event) => this.lastNameChanged(event)}
                             placeholder='Last Name'
                         />
 
                         <DatePicker
+                            dateFormat="MMMM d, yyyy"
                             selected={this.state.dateOfBirth}
                             onChange={this.dateOfBirthChanged}
                         />
 
-                        <input 
+                        <input
                             className="Form__Input max--width"
-                            type="email" 
-                            onChange={(event)=>this.emailChanged(event)} 
+                            type="email"
+                            onChange={(event) => this.emailChanged(event)}
                             placeholder='Email'
                         />
-                        <input 
+
+                        <input
                             className="Form__Input max--width"
-                            type="password" 
+                            type="password"
                             onChange={event => this.passwordChanged(event)}
-                            placeholder='Password'/>
+                            placeholder='Password' />
+
                     </ModalBody>
                     <ModalFooter>
                         <Button
                             onClick={this.register}>
-                               Create Account
+                            Create Account
                         </Button>
                     </ModalFooter>
                 </Modal>

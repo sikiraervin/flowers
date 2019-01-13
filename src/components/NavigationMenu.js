@@ -1,11 +1,10 @@
 import React from 'react';
-import '../App.css';
-import logo  from '../images/logo.jpg';
+import logo from '../images/logo.jpg';
 import { LoginModal } from './LoginModal';
 import { SignupModal } from './SignupModal';
 
 export class NavigationMenu extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -17,7 +16,7 @@ export class NavigationMenu extends React.Component {
         this.toggleSignupModal = this.toggleSignupModal.bind(this);
     }
 
-    toggleLoginModal(){
+    toggleLoginModal() {
         this.setState({
             showLogin: !this.state.showLogin
         });
@@ -25,15 +24,15 @@ export class NavigationMenu extends React.Component {
         this.refs.loginmodal.toggle();
     }
 
-    toggleSignupModal(){
+    toggleSignupModal() {
         this.setState({
             showSignup: !this.state.showSignup
         });
 
         this.refs.signupmodal.toggle();
     }
-    
-    render(){
+
+    render() {
         return (
             <div className="Navbar">
                 <nav className="Navbar__Items">
@@ -52,11 +51,11 @@ export class NavigationMenu extends React.Component {
                         <button className="Navbar__Link__Button">Favorites</button>
                     </div>
                     <div className="Navbar__Link">
-                        <LoginModal 
-                            show={this.state.showLogin} 
-                            ref = "loginmodal"
+                        <LoginModal
+                            show={this.state.showLogin}
+                            ref="loginmodal"
                         />
-                        <button 
+                        <button
                             className="Navbar__Link__Button Login__Btn"
                             onClick={this.toggleLoginModal}
                         >
@@ -65,10 +64,10 @@ export class NavigationMenu extends React.Component {
                     </div>
                     <div className="Navbar__Link">
                         <SignupModal
-                            show={this.state.showSignup} 
-                            ref = "signupmodal"
+                            show={this.state.showSignup}
+                            ref="signupmodal"
                         />
-                        <button 
+                        <button
                             className="Navbar__Link__Button NewAcc__Btn"
                             onClick={this.toggleSignupModal}
                         >

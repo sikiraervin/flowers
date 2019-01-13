@@ -1,8 +1,8 @@
 import React from 'react';
-import {Col, Fa } from "mdbreact";
+import { Col, Fa } from "mdbreact";
 
 export class SearchBox extends React.Component {
-    render(){
+    render() {
         return (
             <div className='ui three column centered grid Search__Section'>
                 <div className='column centered'>
@@ -17,7 +17,7 @@ export class SearchBox extends React.Component {
                                     placeholder="Looking for something specific?"
                                     aria-label="Search"
                                 />
-                                <Fa icon="search" className='Search__Icon'/>
+                                <Fa icon="search" className='Search__Icon' />
                             </form>
                         </Col>
                     </div>

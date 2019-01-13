@@ -1,23 +1,19 @@
 import 'font-awesome/css/font-awesome.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css'; 
 import 'mdbreact/dist/css/mdb.css';
+import './App.css';
 
-import React, { Component } from 'react';
-import { NavigationMenu } from './components/NavigationMenu';
+import React from 'react';
 import { SearchBox } from './components/SearchBox';
 import { FlowerListing } from './containers/FlowerListing';
+import { NavigationMenu } from './components/NavigationMenu';
 
-class App extends Component { 
+const App = () => ( 
+    <div className='App'>
+        <NavigationMenu />
+        <SearchBox />
+        <FlowerListing />
+    </div>
+)
 
-    render() {
-        return (
-            <div className="App">
-                <NavigationMenu />
-                <SearchBox />
-                <FlowerListing />
-            </div>
-        );
-    }
-}
-
-export default App;
+export default App

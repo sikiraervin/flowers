@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
     Container,
     Button,
@@ -7,6 +8,11 @@ import {
     ModalHeader,
     ModalFooter
 } from 'mdbreact';
+
+import { AlertDialog } from './AlertDialog';
+import { SUCCESSFULL_LOGIN } from '../constants';
+
+import client from '../client.js';
 
 export class LoginModal extends React.Component {
     constructor(props) {
@@ -28,13 +34,8 @@ export class LoginModal extends React.Component {
         });
     }
 
-    close() {
-        this.toggle();
-        this.props.hideLoginModal();
-    }
-
-    login(){
-        if(this.state.loginInProgress || this.state.email === '' || this.state.password === ''){
+    login() {
+        if (this.state.loginInProgress || this.state.email === '' || this.state.password === '') {
             return;
         }
 
@@ -42,64 +43,66 @@ export class LoginModal extends React.Component {
             loginInProgress: true
         });
 
-        fetch('https://flowrspot-api.herokuapp.com/api/v1/users/login', {
-            method: 'post',
-            headers: {
-                contentType: 'application/json'
-            },
-            body: {
-                email: 'vetting@poviolabs.com', //this.state.email,
-                password: 'wNjpPC9B7EY734AvCQ', //this.state.password
-            }
-        }).then(response => {
-            return response.json();
+        client.login({
+            email: this.state.email,
+            password: this.state.password
         })
-        .then(rawData => { 
-            console.log(rawData);
-            
-            this.setState({
-                loginInProgress: false
+            .then(res => {
+                if (res && res.auth_token) {
+                    //TODO: Store the token
+                    this.refs.alert.toggle();
+                }
+
+                this.setState({
+                    loginInProgress: false
+                });
             });
-        });
     }
 
     emailChanged = event => {
-        console.log('Email changed');
-        console.log(event.target.value);
+        this.setState({
+            email: event.target.value
+        });
     }
 
     passwordChanged = event => {
-        console.log('Password changed');
-        console.log(event.target.value);
+        this.setState({
+            password: event.target.value
+        });
     }
 
     render() {
         return (
             <Container>
-                <Modal 
-                    isOpen={this.state.show} 
-                    toggle={this.toggle} 
+                <Modal
+                    isOpen={this.state.show}
+                    toggle={this.toggle}
                     className='Login__Modal'
                 >
                     <ModalHeader toggle={this.toggle}>Welcome Back</ModalHeader>
                     <ModalBody>
-                        <input 
+                        <input
                             className='Form__Input max--width'
-                            type="email" 
-                            onChange={(event)=>this.emailChanged(event)} 
+                            type="email"
+                            onChange={(event) => this.emailChanged(event)}
                             placeholder='Email'
                         />
-                        <input 
+                        <input
                             className='Form__Input max--width'
-                            type="password" 
+                            type="password"
                             onChange={event => this.passwordChanged(event)}
-                            placeholder='Password'/>
+                            placeholder='Password' />
                     </ModalBody>
                     <ModalFooter>
                         <Button onClick={this.login}>Login to your account</Button>
+                        <AlertDialog
+                            show={false}
+                            ref='alert'
+                            message={SUCCESSFULL_LOGIN}>
+                        </AlertDialog>
                     </ModalFooter>
                 </Modal>
             </Container>
-        );
+        )
     }
 }

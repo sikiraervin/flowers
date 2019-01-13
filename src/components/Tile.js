@@ -1,17 +1,10 @@
 import React from 'react';
 import staricon from '../images/pl-icon-star.svg';
 
-/**
- * fav: boolean,
- * name: string,
- * desc: string,
- * sightings: num
- */
-
 export class Tile extends React.Component {
-	render() {
-		return (
-            <div 
+    render() {
+        return (
+            <div
                 className="Tile"
 
                 style={{
@@ -19,8 +12,8 @@ export class Tile extends React.Component {
                 }}>
 
                 <div className='Fav__Button'>
-                    <img 
-                        className="Star__Icon" 
+                    <img
+                        className="Star__Icon"
                         src={staricon}
                         alt='fav'
                     />
@@ -29,7 +22,7 @@ export class Tile extends React.Component {
                 <label className='Tile__Name'>{this.props.data.name}</label>
                 <label className='Tile__Name__Latin'>{this.props.data.latin_name}</label>
                 <label className='Sightings__Label'>{this.props.data.sightings} sightings</label>
-			</div>
-		);
-	}
+            </div>
+        );
+    }
 }
