@@ -9,17 +9,20 @@ import {
     ModalFooter
 } from 'mdbreact';
 
+import { connect } from 'react-redux';
 import { AlertDialog } from './AlertDialog';
 import { SUCCESSFULL_LOGIN } from '../constants';
-
+import UserAuthActions from '../actions/UserAuthActions'
 import client from '../client.js';
 
-export class LoginModal extends React.Component {
+const mapStateToProps = state => state
+
+class LoginModal extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            show: this.props.show,
+            showLoginModal: this.props.showLoginModal,
             loginInProgress: false,
             email: '',
             password: ''
@@ -30,7 +33,7 @@ export class LoginModal extends React.Component {
 
     toggle = () => {
         this.setState({
-            show: !this.state.show
+            showLoginModal: !this.state.showLoginModal
         });
     }
 
@@ -43,20 +46,42 @@ export class LoginModal extends React.Component {
             loginInProgress: true
         });
 
+        let { dispatch } = this.props;
+
+        dispatch(UserAuthActions.userLoginRequest({
+            email: this.state.email,
+            password: this.state.password
+        }));
+
         client.login({
             email: this.state.email,
             password: this.state.password
-        })
-            .then(res => {
-                if (res && res.auth_token) {
-                    //TODO: Store the token
-                    this.refs.alert.toggle();
-                }
+        }).then(
+            response => dispatch(UserAuthActions.userLoginSuccess(response)),
+            error => dispatch(UserAuthActions.userLoginFailure(error))
+        );
+    }
 
-                this.setState({
-                    loginInProgress: false
-                });
-            });
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+
+        if(nextProps && nextProps.showLoginModal){
+            this.setState({
+                showLoginModal: true
+            })
+        }
+
+        if (nextProps && nextProps.UserAuthReducer.auth_token) {
+            this.refs.alert.toggle();
+        }
+
+        if(nextProps && nextProps.UserAuthReducer.error){
+            //Here we can handle the case if the user login failed
+        }
+
+        this.setState({
+            loginInProgress: false
+        });
     }
 
     emailChanged = event => {
@@ -106,3 +131,5 @@ export class LoginModal extends React.Component {
         )
     }
 }
+
+export default connect(mapStateToProps, null)(LoginModal)

@@ -5,7 +5,7 @@ import './App.css';
 
 import React from 'react';
 import { SearchBox } from './components/SearchBox';
-import { FlowerListing } from './containers/FlowerListing';
+import FlowerListing from './containers/FlowerListing';
 import { NavigationMenu } from './components/NavigationMenu';
 
 const App = () => ( 

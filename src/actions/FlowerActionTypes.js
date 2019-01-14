@@ -1,0 +1,7 @@
+const FlowerActionTypes = {
+    LOAD_FLOWERS_SUCCESS : 'LOAD_FLOWERS_SUCCESS',
+    LOAD_FLOWERS_FAILURE: 'LOAD_FLOWERS_FAILURE',
+    LOAD_FLOWERS_REQUEST: 'LOAD_FLOWERS_REQUEST'
+}
+
+export default FlowerActionTypes

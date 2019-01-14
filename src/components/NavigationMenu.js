@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../images/logo.jpg';
-import { LoginModal } from './LoginModal';
+import LoginModal from './LoginModal';
 import { SignupModal } from './SignupModal';
 
 export class NavigationMenu extends React.Component {
@@ -20,8 +20,6 @@ export class NavigationMenu extends React.Component {
         this.setState({
             showLogin: !this.state.showLogin
         });
-
-        this.refs.loginmodal.toggle();
     }
 
     toggleSignupModal() {
@@ -52,7 +50,7 @@ export class NavigationMenu extends React.Component {
                     </div>
                     <div className="Navbar__Link">
                         <LoginModal
-                            show={this.state.showLogin}
+                            showLoginModal={this.state.showLogin}
                             ref="loginmodal"
                         />
                         <button
