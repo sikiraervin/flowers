@@ -11,21 +11,28 @@ export class AlertDialog extends React.Component {
         super(props);
 
         this.state = {
-            show: this.props.show,
+            showAlert: this.props.showAlert,
             message: this.props.message
         }
     }
 
     toggle = () => {
         this.setState({
-            show: !this.state.show
+            showAlert: !this.state.showAlert
         });
     }
 
+    componentWillReceiveProps(nextProps){
+        if(nextProps.showAlert !== this.state.showAlert){
+            this.setState({
+                showAlert: nextProps.showAlert
+            })
+        }
+    }
     render() {
         return (
             <Modal
-                isOpen={this.state.show}
+                isOpen={this.state.showAlert}
                 toggle={this.toggle}
                 className='Login__Modal'
             >

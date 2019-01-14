@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { AlertDialog } from './AlertDialog';
 import { SUCCESSFULL_LOGIN } from '../constants';
-import UserAuthActions from '../actions/UserAuthActions'
+import UserAuthActions from '../actions/UserAuthActions';
 import client from '../client.js';
 
 const mapStateToProps = state => state
@@ -63,7 +63,9 @@ class LoginModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
+        this.setState({
+            loginInProgress: false
+        });
 
         if(nextProps && nextProps.showLoginModal){
             this.setState({
@@ -71,17 +73,16 @@ class LoginModal extends React.Component {
             })
         }
 
-        if (nextProps && nextProps.UserAuthReducer.auth_token) {
+        if (nextProps && nextProps.showLoginModal && nextProps.UserAuthReducer && nextProps.UserAuthReducer.auth_token) {
             this.refs.alert.toggle();
         }
 
-        if(nextProps && nextProps.UserAuthReducer.error){
+        if(nextProps && nextProps.UserAuthReducer && nextProps.UserAuthReducer.error){
             //Here we can handle the case if the user login failed
+            // 1. Show an friendly user message if its an API error
+            // 2. Indicate the user he might provided wrong login creds 
+            // etc...
         }
-
-        this.setState({
-            loginInProgress: false
-        });
     }
 
     emailChanged = event => {
@@ -100,7 +101,7 @@ class LoginModal extends React.Component {
         return (
             <Container>
                 <Modal
-                    isOpen={this.state.show}
+                    isOpen={this.state.showLoginModal}
                     toggle={this.toggle}
                     className='Login__Modal'
                 >
@@ -121,7 +122,7 @@ class LoginModal extends React.Component {
                     <ModalFooter>
                         <Button onClick={this.login}>Login to your account</Button>
                         <AlertDialog
-                            show={false}
+                            showAlert={false}
                             ref='alert'
                             message={SUCCESSFULL_LOGIN}>
                         </AlertDialog>

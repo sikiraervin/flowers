@@ -11,21 +11,27 @@ import {
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import client from '../client';
+import { SUCCESSFULL_SIGNUP } from '../constants'
+import { connect } from 'react-redux';
+import UserAuthActions from '../actions/UserAuthActions';
+import { AlertDialog } from './AlertDialog';
 
+const mapStateToProps = state => state
 
-export class SignupModal extends React.Component {
+class SignupModal extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            show: this.props.show,
+            showSignupModal: this.props.showSignupModal,
             signupInProgress: false,
             dateOfBirth: new Date(),
             formatedDate: '',
             name: '',
             lastName: '',
             email: '',
-            password: ''
+            password: '',
+            showAlert: false
         };
 
         this.register = this.register.bind(this);
@@ -34,7 +40,7 @@ export class SignupModal extends React.Component {
 
     toggle = () => {
         this.setState({
-            show: !this.state.show
+            showSignupModal: !this.state.showSignupModal
         });
     }
 
@@ -78,6 +84,24 @@ export class SignupModal extends React.Component {
             console.log(this.state.formatedDate);
         });
     }
+    
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            signupInProgress: false
+        });
+
+        if(nextProps && nextProps.showSignupModal){
+            this.setState({
+                showSignupModal: true
+            })
+        }
+
+        if (nextProps && nextProps.UserAuthReducer && nextProps.UserAuthReducer.auth_token) {
+            this.setState({
+                showAlert: true
+            })
+        }
+    }
 
     register() {
         if (
@@ -94,22 +118,26 @@ export class SignupModal extends React.Component {
             signupInProgress: true
         });
 
+        let { dispatch } = this.props;
+
+        dispatch(UserAuthActions.userSignupRequest({
+            name: this.state.name,
+            lastName: this.state.lastName,
+            dateOfBirth: this.state.formatedDate,
+            email: this.state.email,
+            password: this.state.password
+        }));
+
         client.signup({
             name: this.state.name,
             lastName: this.state.lastName,
             dateOfBirth: this.state.formatedDate,
             email: this.state.email,
             password: this.state.password
-        })
-            .then(res => {
-                if (res) {
-                    console.log(res);
-                }
-
-                this.setState({
-                    signupInProgress: false
-                });
-            });
+        }).then(
+            response => dispatch(UserAuthActions.userSignupSuccess(response),
+            error => dispatch(UserAuthActions.userSignupFailure(error)))
+        );
     }
 
     render() {
@@ -117,7 +145,7 @@ export class SignupModal extends React.Component {
             <Container>
                 <Modal
                     className='Signup__Modal'
-                    isOpen={this.state.show}
+                    isOpen={this.state.showSignupModal}
                     toggle={this.toggle}
                 >
                     <ModalHeader toggle={this.toggle}>Create Your Account</ModalHeader>
@@ -154,16 +182,22 @@ export class SignupModal extends React.Component {
                             type="password"
                             onChange={event => this.passwordChanged(event)}
                             placeholder='Password' />
-
                     </ModalBody>
                     <ModalFooter>
                         <Button
                             onClick={this.register}>
                             Create Account
                         </Button>
+                        <AlertDialog
+                            showAlert={this.state.showAlert}
+                            ref='alert'
+                            message={SUCCESSFULL_SIGNUP}>
+                        </AlertDialog>
                     </ModalFooter>
                 </Modal>
             </Container>
         );
     }
 }
+
+export default connect(mapStateToProps, null)(SignupModal)

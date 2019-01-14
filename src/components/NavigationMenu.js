@@ -1,15 +1,15 @@
 import React from 'react';
 import logo from '../images/logo.jpg';
 import LoginModal from './LoginModal';
-import { SignupModal } from './SignupModal';
+import SignupModal from './SignupModal';
 
 export class NavigationMenu extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showLogin: false,
-            showSignup: false,
+            showLoginModal: false,
+            showSignupModal: false,
         }
 
         this.toggleLoginModal = this.toggleLoginModal.bind(this);
@@ -18,16 +18,14 @@ export class NavigationMenu extends React.Component {
 
     toggleLoginModal() {
         this.setState({
-            showLogin: !this.state.showLogin
+            showLoginModal: true
         });
     }
 
     toggleSignupModal() {
         this.setState({
-            showSignup: !this.state.showSignup
+            showSignupModal: true
         });
-
-        this.refs.signupmodal.toggle();
     }
 
     render() {
@@ -50,7 +48,7 @@ export class NavigationMenu extends React.Component {
                     </div>
                     <div className="Navbar__Link">
                         <LoginModal
-                            showLoginModal={this.state.showLogin}
+                            showLoginModal={this.state.showLoginModal}
                             ref="loginmodal"
                         />
                         <button
@@ -62,7 +60,7 @@ export class NavigationMenu extends React.Component {
                     </div>
                     <div className="Navbar__Link">
                         <SignupModal
-                            show={this.state.showSignup}
+                            showSignupModal={this.state.showSignupModal}
                             ref="signupmodal"
                         />
                         <button
