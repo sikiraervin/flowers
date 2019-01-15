@@ -22,9 +22,10 @@ const userSignupRequest = (email, password) => ({
     password: password
 })
 
-const userSignupSuccess = (authToken) => ({
+const userSignupSuccess = (authToken, userData) => ({
     type: UserAuthActionTypes.USER_SIGNUP_SUCCESS,
-    authToken: authToken
+    authToken: authToken,
+    userData
 })
 
 const userSignupFailure = (error) => ({

@@ -18,7 +18,10 @@ class NavigationMenu extends React.Component {
             showSignupModal: false,
             userSectionVisible: false,
             showUserProfile: false,
-            userProfile: {}
+            userProfile: {
+                name: 'aaaa',
+                lastName: 'ssss'
+            }
         }
 
         this.toggleLoginModal = this.toggleLoginModal.bind(this);
@@ -58,14 +61,11 @@ class NavigationMenu extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.UserAuthReducer && nextProps.UserAuthReducer.type === UserAuthActionTypes.SHOW_USER_SECTION) {
-            client.getUserProfile()
-                .then(response => {
-                    this.setState({
-                        userSectionVisible: true,
-                        userProfile: response,
-                        showUserProfile: false
-                    })
-                })
+            this.setState({
+                userSectionVisible: true,
+                showUserProfile: false,
+                userProfile: nextProps.UserAuthReducer.userData
+            });
 
             return;
         }
@@ -79,6 +79,13 @@ class NavigationMenu extends React.Component {
                         userProfile: response
                     })
                 })
+        }
+
+        if(nextProps.UserAuthReducer && nextProps.UserAuthReducer.type === UserAuthActionTypes.USER_LOGIN_SUCCESS){
+            client.getUserData(nextProps.auth_token)
+            .then(res => {
+                console.log(res);
+            })
         }
     }
 
@@ -152,7 +159,7 @@ class NavigationMenu extends React.Component {
                             className="Navbar__Link__Button"
                             onClick={this.showUserProfileModal}
                         >
-                            John Doe
+                            {this.state.userProfile.name + ' ' + this.state.userProfile.lastName}
                         </button>
                         <div className='User__Profile__Section__Img'>
                             <img

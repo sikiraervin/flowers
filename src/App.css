@@ -109,9 +109,9 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    border-style: solid;
+    /* border-style: solid;
     border-radius: 0.2px;
-    border-color: black;
+    border-color: black; */
 }
 
 .Tile__Name{

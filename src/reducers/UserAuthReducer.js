@@ -20,11 +20,12 @@ export default (state = [], action) => {
             };
         case UserAuthActionTypes.USER_SIGNUP_SUCCESS:
             auth_token = action.authToken.auth_token;
-
+        
             return {
                 ...state,
                 type: UserAuthActionTypes.USER_SIGNUP_SUCCESS,
-                auth_token
+                auth_token,
+                userData: action.userData
             };
         case UserAuthActionTypes.SHOW_USER_SECTION:
             return {

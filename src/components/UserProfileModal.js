@@ -63,10 +63,10 @@ class SignupModal extends React.Component {
                             src={userImage}
                             alt='fav'
                         />  
-                        <label className='User__Profile__Main__Label'>{this.state.firstName} {this.state.lastName}</label>
+                        <label className='User__Profile__Main__Label'>{this.state.name} {this.state.lastName}</label>
                         <label className='User__Profile__Sightings__Label'>{this.state.sightings} sightings</label>
                         <label className='User__Profile__Label'>First Name</label>
-                        <label className='User__Profile__Label Large__Font'>{this.state.firstName}</label>
+                        <label className='User__Profile__Label Large__Font'>{this.state.name}</label>
                         <label className='User__Profile__Label'>Last Name</label>
                         <label className='User__Profile__Label Large__Font'>{this.state.lastName}</label>
                         <label className='User__Profile__Label'>Date Of Birth</label>

@@ -9,7 +9,7 @@ import { PUBLIC_API_TOKEN } from './constants'
 // ----------- FOR DEBUG PURPOSES ------------
 
 import { FLOWERS } from './mocked-data'
-const MOCK_API = true
+const MOCK_API = false
 const MOCKED_AUTH_TOKEN = {
     auth_token: 'qwerty'
 }
@@ -25,7 +25,7 @@ const login = (data) => {
     return fetch('https://flowrspot-api.herokuapp.com/api/v1/users/login', {
             method: 'post',
             headers: {
-                'Accept': 'application/json, text/plain, */*',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
@@ -75,39 +75,57 @@ const getFlowers = () => {
     .then(parseJSON)
 }
 
-const getUserProfile = () => {
+const getUserData = (authToken) => {
     if(MOCK_API){
         return new Promise((resolve) => resolve({
-            firstName: 'Michael',
-            lastName: 'Barry',
-            dateOfBirth: '20/05/1980',
-            email: 'test@test.com',
-            sightings: 0
+            name: 'John',
+            lastName: 'Doe'
         }))
     }
 
-    //TODO: Implement real API Call
+
+    return fetch('flowrspot-api.herokuapp.com/api/v1/users/me', {
+        method: 'get',
+        headers: {
+            'Authorization': authToken
+        }
+    })
+    .then(checkStatus)
+    .then(parseJSON)
 }
 
 const checkStatus = response => {
     if (response.status >= 200 && response.status < 300) {
         return response;
-    }
+    } 
 
-    const error = new Error(`HTTP Error ${response.statusText}`);
-    error.status = response.statusText;
-    error.response = response;
-    
-    console.log(error);
-    
-    throw error;
+    return response.text().then(err => err);
 }
 
-const parseJSON = (response) => response.json()
+const parseJSON = (response) => {
+    if(response.ok){
+        try {
+            var parsed = response.json();
+            return parsed;
+        } catch(err){
+            console.log(err)
+            return response.text();
+        }
+    } 
+
+    try {
+        let rawError = JSON.parse(response);
+        return Promise.reject(rawError.error.join('\n'));
+    } catch(errorParsing){
+        console.log('Error parsing the response.');
+
+        return "There was an issue with your request!";
+    }
+}
 
 export default {
     login,
     signup,
     getFlowers,
-    getUserProfile
+    getUserData
 }

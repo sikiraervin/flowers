@@ -7,7 +7,7 @@ import {
     Button
 } from 'mdbreact';
 
-import { SUCCESSFULL_LOGIN } from '../constants'
+import { SUCCESSFULL_LOGIN, SUCCESSFULL_SIGNUP } from '../constants'
 
 export class AlertDialog extends React.Component {
     constructor(props) {
@@ -39,7 +39,7 @@ export class AlertDialog extends React.Component {
     dismissAlert(){
         this.toggle();
 
-        if(this.props.onCloseCallback){
+        if(this.props.onCloseCallback && (this.props.message === SUCCESSFULL_SIGNUP || this.props.message === SUCCESSFULL_LOGIN) ){
             this.props.onCloseCallback();
         }
     }

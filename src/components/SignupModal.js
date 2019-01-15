@@ -26,12 +26,14 @@ class SignupModal extends React.Component {
             showSignupModal: this.props.showSignupModal,
             signupInProgress: false,
             dateOfBirth: new Date(),
-            formatedDate: '',
+            formatedDate: new Date(),
             name: '',
             lastName: '',
             email: '',
             password: '',
-            showAlert: false
+            showAlert: false,
+            showLoginAfterRegister: false,
+            alertMessage: SUCCESSFULL_SIGNUP
         };
 
         this.register = this.register.bind(this);
@@ -44,7 +46,7 @@ class SignupModal extends React.Component {
             showSignupModal: !this.state.showSignupModal
         });
 
-        this.props.onClose && this.props.onClose(null, false, true);
+        this.props.onClose && this.props.onClose(null, false, this.state.showLoginAfterRegister);
     }
 
     nameChanged = event => {
@@ -83,8 +85,6 @@ class SignupModal extends React.Component {
         this.setState({
             dateOfBirth: date,
             formatedDate: year + '/' + month + '/' + day,
-        }, () => {
-            console.log(this.state.formatedDate);
         });
     }
     
@@ -123,23 +123,33 @@ class SignupModal extends React.Component {
 
         let { dispatch } = this.props;
 
-        dispatch(UserAuthActions.userSignupRequest({
+        let userData = {
             name: this.state.name,
             lastName: this.state.lastName,
             dateOfBirth: this.state.formatedDate,
             email: this.state.email,
             password: this.state.password
-        }));
+        };
 
-        client.signup({
-            name: this.state.name,
-            lastName: this.state.lastName,
-            dateOfBirth: this.state.formatedDate,
-            email: this.state.email,
-            password: this.state.password
-        }).then(
-            response => dispatch(UserAuthActions.userSignupSuccess(response),
-            error => dispatch(UserAuthActions.userSignupFailure(error)))
+        dispatch(UserAuthActions.userSignupRequest({...userData}));
+
+        client.signup({...userData})
+        .then(
+            (response) => {
+                this.setState({
+                    showLoginAfterRegister: true
+                });
+
+                dispatch(UserAuthActions.userSignupSuccess(response, userData));
+            },
+            error => {
+                this.setState({
+                    alertMessage: 'There appears to be an issue with your request: \n' + error,
+                    showAlert: true
+                })
+
+                dispatch(UserAuthActions.userSignupFailure(error))
+            }
         );
     }
 
@@ -198,7 +208,7 @@ class SignupModal extends React.Component {
                         <AlertDialog
                             showAlert={this.state.showAlert}
                             ref='alert'
-                            message={SUCCESSFULL_SIGNUP}
+                            message={this.state.alertMessage}
                             onCloseCallback={this.onAlertDismiss}
                         />
                     </ModalFooter>
