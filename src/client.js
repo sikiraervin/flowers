@@ -63,6 +63,8 @@ const getFlowers = () => {
         return new Promise((resolve) => resolve({flowers: FLOWERS}));
     }
 
+    //TODO: Implement dispatches
+
     return  fetch('https://flowrspot-api.herokuapp.com/api/v1/flowers', {
         method: 'get',
         headers: {
@@ -71,6 +73,20 @@ const getFlowers = () => {
     })
     .then(checkStatus)
     .then(parseJSON)
+}
+
+const getUserProfile = () => {
+    if(MOCK_API){
+        return new Promise((resolve) => resolve({
+            firstName: 'Michael',
+            lastName: 'Barry',
+            dateOfBirth: '20/05/1980',
+            email: 'test@test.com',
+            sightings: 0
+        }))
+    }
+
+    //TODO: Implement real API Call
 }
 
 const checkStatus = response => {
@@ -92,5 +108,6 @@ const parseJSON = (response) => response.json()
 export default {
     login,
     signup,
-    getFlowers
+    getFlowers,
+    getUserProfile
 }

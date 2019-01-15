@@ -36,12 +36,15 @@ class SignupModal extends React.Component {
 
         this.register = this.register.bind(this);
         this.dateOfBirthChanged = this.dateOfBirthChanged.bind(this);
+        this.onAlertDismiss = this.onAlertDismiss.bind(this);
     }
 
     toggle = () => {
         this.setState({
             showSignupModal: !this.state.showSignupModal
         });
+
+        this.props.onClose && this.props.onClose(null, false, true);
     }
 
     nameChanged = event => {
@@ -140,6 +143,10 @@ class SignupModal extends React.Component {
         );
     }
 
+    onAlertDismiss(){
+        this.toggle();
+    }
+
     render() {
         return (
             <Container>
@@ -191,8 +198,9 @@ class SignupModal extends React.Component {
                         <AlertDialog
                             showAlert={this.state.showAlert}
                             ref='alert'
-                            message={SUCCESSFULL_SIGNUP}>
-                        </AlertDialog>
+                            message={SUCCESSFULL_SIGNUP}
+                            onCloseCallback={this.onAlertDismiss}
+                        />
                     </ModalFooter>
                 </Modal>
             </Container>

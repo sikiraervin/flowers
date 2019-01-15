@@ -32,11 +32,25 @@ const userSignupFailure = (error) => ({
     error
 })
 
+const showUserSection = () => ({
+    type: UserAuthActionTypes.SHOW_USER_SECTION
+})
+
+const showUserProfile = () => ({
+    type: UserAuthActionTypes.SHOW_USER_PROFILE
+})
+
+const getUserProfile = () => ({
+    type: UserAuthActionTypes.GET_USER_PROFILE
+})
+
 export default {
     userLoginFailure,
     userLoginRequest,
     userLoginSuccess,
     userSignupFailure,
     userSignupRequest,
-    userSignupSuccess
+    userSignupSuccess,
+    showUserSection,
+    showUserProfile
 }

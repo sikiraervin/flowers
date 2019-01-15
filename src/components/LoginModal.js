@@ -29,12 +29,15 @@ class LoginModal extends React.Component {
         };
 
         this.login = this.login.bind(this);
+        this.onAlertDismiss = this.onAlertDismiss.bind(this);
     }
 
     toggle = () => {
         this.setState({
             showLoginModal: !this.state.showLoginModal
         });
+
+        this.props.onClose && this.props.onClose(null, false);
     }
 
     login() {
@@ -73,7 +76,15 @@ class LoginModal extends React.Component {
             })
         }
 
-        if (nextProps && nextProps.showLoginModal && nextProps.UserAuthReducer && nextProps.UserAuthReducer.auth_token) {
+        if (
+            nextProps && 
+            nextProps.showLoginModal && 
+            nextProps.UserAuthReducer && 
+            nextProps.UserAuthReducer.auth_token &&
+            this.refs &&
+            this.refs.alert &&
+            this.refs.alert.toggle
+        ) {
             this.refs.alert.toggle();
         }
 
@@ -95,6 +106,16 @@ class LoginModal extends React.Component {
         this.setState({
             password: event.target.value
         });
+    }
+
+    onAlertDismiss(type){
+        this.setState({
+            showLoginModal: false,
+            showUserProfile: false
+        })
+
+        typeof type === 'undefined' && this.props.dispatch(UserAuthActions.showUserSection());
+        typeof type === 'string' && type === 'profile' && this.props.dispatch(UserAuthActions.showUserProfile());
     }
 
     render() {
@@ -120,12 +141,13 @@ class LoginModal extends React.Component {
                             placeholder='Password' />
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={this.login}>Login to your account</Button>
+                        <Button onClick={this.login} style={{marginRight: '22%'}}>Login to your account</Button>
                         <AlertDialog
                             showAlert={false}
                             ref='alert'
-                            message={SUCCESSFULL_LOGIN}>
-                        </AlertDialog>
+                            message={SUCCESSFULL_LOGIN}
+                            onCloseCallback={this.onAlertDismiss}
+                            />
                     </ModalFooter>
                 </Modal>
             </Container>

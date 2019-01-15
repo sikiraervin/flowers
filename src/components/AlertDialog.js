@@ -3,8 +3,11 @@ import React from 'react';
 import {
     Modal,
     ModalBody,
-    ModalHeader
+    ModalHeader,
+    Button
 } from 'mdbreact';
+
+import { SUCCESSFULL_LOGIN } from '../constants'
 
 export class AlertDialog extends React.Component {
     constructor(props) {
@@ -14,6 +17,9 @@ export class AlertDialog extends React.Component {
             showAlert: this.props.showAlert,
             message: this.props.message
         }
+
+        this.dismissAlert = this.dismissAlert.bind(this);
+        this.dismissAlertShowProfile = this.dismissAlertShowProfile.bind(this);
     }
 
     toggle = () => {
@@ -29,6 +35,23 @@ export class AlertDialog extends React.Component {
             })
         }
     }
+
+    dismissAlert(){
+        this.toggle();
+
+        if(this.props.onCloseCallback){
+            this.props.onCloseCallback();
+        }
+    }
+
+    dismissAlertShowProfile(){
+        this.toggle();
+
+        if(this.props.onCloseCallback){
+            this.props.onCloseCallback('profile');
+        }
+    }
+
     render() {
         return (
             <Modal
@@ -38,7 +61,17 @@ export class AlertDialog extends React.Component {
             >
                 <ModalHeader toggle={this.toggle}></ModalHeader>
                 <ModalBody>
-                    <label>{this.props.message}</label>
+                    <label style={{width: '100%'}}>{this.props.message}</label>
+                    <Button
+                        style={{marginLeft: this.props.message === SUCCESSFULL_LOGIN ? '' : '30%'}} 
+                        onClick={this.dismissAlert}>
+                            OK
+                    </Button>
+                    <Button 
+                        style={{visibility: this.props.message === SUCCESSFULL_LOGIN ? 'visible' : 'hidden'}} 
+                        onClick={this.dismissAlertShowProfile}>
+                            Profile
+                    </Button>
                 </ModalBody>
             </Modal>
         );
